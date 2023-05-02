@@ -15,13 +15,22 @@ namespace laba11
         public Form1()
         {
             InitializeComponent();
+            UserContext hulan = new UserContext();
+            hulan.Database.Delete();
+            hulan.Database.Create();
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            UserContext hulan = new UserContext();
-            hulan.Database.Delete();
-            hulan.Database.Create();
+            using (UserContext db = new UserContext())
+            {
+                GetHashString gett = new GetHashString();
+                User user = new User(textBox1.Text, gett.GetHash(textBox2.Text), textBox3.Text, textBox4.Text, textBox5.Text, textBox6.Text, textBox7.Text, "User");
+                db.Users.Add(user);
+                db.SaveChanges();
+
+            }
         }
     }
 }
